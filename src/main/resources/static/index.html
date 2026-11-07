@@ -13,7 +13,7 @@
     <input id="password" type="password" placeholder="Password">
     <button id="loginBtn">Login</button>
     <div id="msg" class="msg"></div>
-    <p class="hint">Demo: teacher@sms.com / Teacher@123<br>student1@sms.com / Student@123</p>
+    <p class="hint">Demo: teacher@sms.com / Teacher@123<br>student1@sms.com / Student@123<br>admin@sms.com / Admin@123</p>
   </div>
   <script src="/js/app.js"></script>
   <script>
@@ -24,7 +24,8 @@
           body: JSON.stringify({ email: email.value, password: password.value })
         });
         saveSession(data);
-        window.location.href = data.role === 'ROLE_TEACHER' ? '/teacher.html' : '/student.html';
+        const pages = { ROLE_ADMIN: '/admin.html', ROLE_TEACHER: '/teacher.html', ROLE_STUDENT: '/student.html' };
+        window.location.href = pages[data.role] || '/index.html';
       } catch (e) { showMsg('msg', e.message, false); }
     }
     loginBtn.addEventListener('click', doLogin);

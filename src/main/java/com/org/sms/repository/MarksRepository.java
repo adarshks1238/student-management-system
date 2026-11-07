@@ -17,4 +17,10 @@ public interface MarksRepository extends JpaRepository<Marks, Long> {
     List<Marks> findByTeacherIdWithDetails(@Param("teacherId") Long teacherId);
 
     boolean existsByStudentIdAndSubjectIdAndExamType(Long studentId, Long subjectId, String examType);
+
+    boolean existsByTeacherId(Long teacherId);
+
+    boolean existsBySubjectId(Long subjectId);
+
+    void deleteByStudentId(Long studentId);
 }

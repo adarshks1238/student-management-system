@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header><h1>Admin Dashboard</h1><button class="secondary" onclick="logout()">Logout</button></header>
+  <main>
+    <div id="msg" class="msg"></div>
+    <div class="card"><h2>Overview</h2><div class="stats" id="stats"></div></div>
+
+    <div class="card"><h2>Teachers</h2>
+      <input id="tName" placeholder="Teacher name"><input id="tEmp" placeholder="Employee ID">
+      <input id="tEmail" type="email" placeholder="Email"><input id="tPass" type="password" placeholder="Password (min 6)">
+      <button id="addTeacher">Add Teacher</button>
+      <table><thead><tr><th>ID</th><th>Name</th><th>Emp ID</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tBody"></tbody></table>
+    </div>
+
+    <div class="card"><h2>Students</h2>
+      <p class="hint">Students are created by teachers. Admin can view, disable/enable or delete them.</p>
+      <table><thead><tr><th>ID</th><th>Name</th><th>Roll</th><th>Dept</th><th>Sem</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead><tbody id="sBody"></tbody></table>
+    </div>
+
+    <div class="card"><h2>Subjects</h2>
+      <input id="subName" placeholder="Subject name"><input id="subCode" placeholder="Code (e.g. CS304)">
+      <input id="subSem" type="number" min="1" max="12" placeholder="Semester" style="width:100px">
+      <button id="addSubject">Add Subject</button>
+      <table><thead><tr><th>ID</th><th>Name</th><th>Code</th><th>Sem</th><th>Actions</th></tr></thead><tbody id="subBody"></tbody></table>
+    </div>
+
+    <div class="card"><h2>Teacher Assignments</h2>
+      <select id="aTeacher"></select><select id="aSubject"></select>
+      <button id="addAssign">Assign (semester = subject's semester)</button>
+      <table><thead><tr><th>ID</th><th>Teacher</th><th>Subject</th><th>Sem</th><th></th></tr></thead><tbody id="aBody"></tbody></table>
+    </div>
+  </main>
+  <script src="/js/app.js"></script>
+  <script>
+    requireRole('ROLE_ADMIN');
+    let teachers = [], students = [], subjects = [];
+
+    const run = async (fn, okText) => {
+      try { await fn(); showMsg('msg', okText, true); await loadAll(); }
+      catch (e) { showMsg('msg', e.message, false); }
+    };
+    async function editRecord(url, rec, fields) {
+      const body = {};
+      for (const f of fields) {
+        const v = prompt('Enter ' + f, rec[f]);
+        if (v === null) return;
+        body[f] = f === 'semester' ? parseInt(v, 10) : v;
+      }
+      run(() => api(url, { method: 'PUT', body: JSON.stringify(body) }), 'Updated');
+    }
+    function remove(url, label) {
+      if (confirm('Delete ' + label + '?')) run(() => api(url, { method: 'DELETE' }), 'Deleted');
+    }
+    const status = e => e ? 'Active' : 'Disabled';
+
+    async function loadAll() {
+      const st = await api('/api/admin/stats');
+      stats.innerHTML = ['teachers', 'students', 'subjects', 'assignments']
+        .map(k => `<div class="stat">${k}<b>${st[k]}</b></div>`).join('');
+
+      teachers = await api('/api/admin/teachers');
+      tBody.innerHTML = teachers.map((t, i) => `<tr><td>${t.id}</td><td>${esc(t.teacherName)}</td><td>${esc(t.employeeId)}</td><td>${esc(t.email)}</td><td>${status(t.enabled)}</td>
+        <td><button onclick="editRecord('/api/admin/teachers/${t.id}', teachers[${i}], ['teacherName','employeeId'])">Edit</button>
+        <button class="secondary" onclick="run(()=>api('/api/admin/teachers/${t.id}/enabled?value=${!t.enabled}',{method:'PUT'}),'Status changed')">${t.enabled ? 'Disable' : 'Enable'}</button>
+        <button onclick="remove('/api/admin/teachers/${t.id}','${esc(t.teacherName)}')">Delete</button></td></tr>`).join('');
+
+      students = await api('/api/admin/students');
+      sBody.innerHTML = students.map((s, i) => `<tr><td>${s.id}</td><td>${esc(s.studentName)}</td><td>${esc(s.rollNumber)}</td><td>${esc(s.department)}</td><td>${s.semester}</td><td>${esc(s.email)}</td><td>${status(s.enabled)}</td>
+        <td> <button class="secondary" onclick="run(()=>api('/api/admin/students/${s.id}/enabled?value=${!s.enabled}',{method:'PUT'}),'Status changed')">${s.enabled ? 'Disable' : 'Enable'}</button>
+        <button onclick="remove('/api/admin/students/${s.id}','${esc(s.studentName)} (also deletes marks & attendance)')">Delete</button></td></tr>`).join('');
+
+      subjects = await api('/api/admin/subjects');
+      subBody.innerHTML = subjects.map((s, i) => `<tr><td>${s.id}</td><td>${esc(s.subjectName)}</td><td>${esc(s.subjectCode)}</td><td>${s.semester}</td>
+        <td><button onclick="editRecord('/api/admin/subjects/${s.id}', subjects[${i}], ['subjectName','subjectCode','semester'])">Edit</button>
+        <button onclick="remove('/api/admin/subjects/${s.id}','${esc(s.subjectName)}')">Delete</button></td></tr>`).join('');
+
+      aTeacher.innerHTML = teachers.map(t => `<option value="${t.id}">${esc(t.teacherName)} (${esc(t.employeeId)})</option>`).join('');
+      aSubject.innerHTML = subjects.map(s => `<option value="${s.id}">${esc(s.subjectCode)} - ${esc(s.subjectName)} (Sem ${s.semester})</option>`).join('');
+
+      const as = await api('/api/admin/assignments');
+      aBody.innerHTML = as.map(a => `<tr><td>${a.id}</td><td>${esc(a.teacherName)}</td><td>${esc(a.subjectCode)} - ${esc(a.subjectName)}</td><td>${a.semester}</td>
+        <td><button onclick="remove('/api/admin/assignments/${a.id}','this assignment')">Remove</button></td></tr>`).join('');
+    }
+
+    addTeacher.addEventListener('click', () => run(() => api('/api/admin/teachers', { method: 'POST', body: JSON.stringify({
+      teacherName: tName.value, employeeId: tEmp.value, email: tEmail.value, password: tPass.value }) }), 'Teacher added'));
+    addSubject.addEventListener('click', () => run(() => api('/api/admin/subjects', { method: 'POST', body: JSON.stringify({
+      subjectName: subName.value, subjectCode: subCode.value, semester: parseInt(subSem.value, 10) || null }) }), 'Subject added'));
+    addAssign.addEventListener('click', () => {
+      const sub = subjects.find(s => s.id === +aSubject.value);
+      if (!sub || !aTeacher.value) { showMsg('msg', 'Select a teacher and a subject', false); return; }
+      run(() => api('/api/admin/assignments', { method: 'POST', body: JSON.stringify({
+        teacherId: +aTeacher.value, subjectId: sub.id, semester: sub.semester }) }), 'Assignment created');
+    });
+    loadAll().catch(e => showMsg('msg', e.message, false));
+  </script>
+</body>
+</html>

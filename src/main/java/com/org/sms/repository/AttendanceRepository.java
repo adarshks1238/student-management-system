@@ -18,4 +18,10 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     List<Attendance> findByTeacherIdWithDetails(@Param("teacherId") Long teacherId);
 
     boolean existsByStudentIdAndSubjectIdAndAttendanceDate(Long studentId, Long subjectId, LocalDate date);
+
+    boolean existsByTeacherId(Long teacherId);
+
+    boolean existsBySubjectId(Long subjectId);
+
+    void deleteByStudentId(Long studentId);
 }

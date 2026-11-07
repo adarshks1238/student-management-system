@@ -61,7 +61,14 @@ public class DataSeeder implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        if (userRepository.count() > 0) {
+        boolean freshDatabase = userRepository.count() == 0;
+
+        // Admin account is created if it does not exist yet (works on existing databases too)
+        if (!userRepository.existsByEmail("admin@sms.com")) {
+            user("admin@sms.com", "Admin@123", Role.ROLE_ADMIN);
+            log.info("Admin created. Admin: admin@sms.com / Admin@123");
+        }
+        if (!freshDatabase) {
             return;
         }
         // Subjects

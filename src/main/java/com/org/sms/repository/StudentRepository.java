@@ -11,6 +11,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Optional<Student> findByUserEmail(String email);
 
+    boolean existsByRollNumber(String rollNumber);
+
     /** Students whose semester matches any semester the teacher is assigned to teach. */
     @Query("select s from Student s where s.semester in "
             + "(select ta.semester from TeacherAssignment ta where ta.teacher.id = :teacherId) "

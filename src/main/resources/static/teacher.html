@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teacher Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header><h1>Teacher Dashboard</h1><button class="secondary" onclick="logout()">Logout</button></header>
+  <main>
+    <div class="card"><h2>My Profile</h2><div id="profile">Loading...</div></div>
+    <div class="card"><h2>Assigned Subjects</h2>
+      <table><thead><tr><th>Code</th><th>Subject</th><th>Semester</th></tr></thead><tbody id="subBody"></tbody></table></div>
+    <div class="card"><h2>Assigned Students</h2>
+      <table><thead><tr><th>Roll</th><th>Name</th><th>Department</th><th>Semester</th></tr></thead><tbody id="stuBody"></tbody></table></div>
+
+    <div class="card"><h2>Add Marks</h2>
+      <select id="mStudent"></select><select id="mSubject"></select>
+      <input id="mObtained" type="number" step="0.5" placeholder="Obtained">
+      <input id="mMax" type="number" step="0.5" placeholder="Max marks" value="50">
+      <input id="mExam" placeholder="Exam type (e.g. MIDTERM)" value="MIDTERM">
+      <input id="mDate" type="date">
+      <button id="addMarksBtn">Save Marks</button>
+      <div id="mMsg" class="msg"></div>
+      <table><thead><tr><th>Student</th><th>Subject</th><th>Exam</th><th>Date</th><th>Marks</th><th></th></tr></thead><tbody id="marksBody"></tbody></table>
+    </div>
+
+    <div class="card"><h2>Mark Attendance</h2>
+      <select id="aStudent"></select><select id="aSubject"></select>
+      <input id="aDate" type="date">
+      <select id="aStatus"><option>PRESENT</option><option>ABSENT</option></select>
+      <button id="addAttBtn">Save Attendance</button>
+      <div id="aMsg" class="msg"></div>
+      <table><thead><tr><th>Date</th><th>Student</th><th>Subject</th><th>Status</th><th></th></tr></thead><tbody id="attBody"></tbody></table>
+    </div>
+  </main>
+  <script src="/js/app.js"></script>
+  <script>
+    requireRole('ROLE_TEACHER');
+    const today = new Date().toISOString().slice(0, 10);
+    mDate.value = today; aDate.value = today;
+    let marksCache = [], attCache = [];
+
+    async function loadBasics() {
+      const p = await api('/api/teachers/profile');
+      profile.innerHTML = `<b>${esc(p.teacherName)}</b> | Employee ID: ${esc(p.employeeId)} | ${esc(p.email)}`;
+      const subs = await api('/api/teachers/subjects');
+      subBody.innerHTML = subs.map(s => `<tr><td>${esc(s.subjectCode)}</td><td>${esc(s.subjectName)}</td><td>${esc(s.semester)}</td></tr>`).join('');
+      const sOpts = subs.map(s => `<option value="${s.id}">${esc(s.subjectCode)} - ${esc(s.subjectName)}</option>`).join('');
+      mSubject.innerHTML = sOpts; aSubject.innerHTML = sOpts;
+      const studs = await api('/api/teachers/students');
+      stuBody.innerHTML = studs.map(s => `<tr><td>${esc(s.rollNumber)}</td><td>${esc(s.studentName)}</td><td>${esc(s.department)}</td><td>${esc(s.semester)}</td></tr>`).join('');
+      const stOpts = studs.map(s => `<option value="${s.id}">${esc(s.rollNumber)} - ${esc(s.studentName)}</option>`).join('');
+      mStudent.innerHTML = stOpts; aStudent.innerHTML = stOpts;
+    }
+    async function loadMarks() {
+      marksCache = await api('/api/teachers/marks');
+      marksBody.innerHTML = marksCache.map((m, i) => `<tr><td>${esc(m.rollNumber)} ${esc(m.studentName)}</td><td>${esc(m.subjectCode)}</td><td>${esc(m.examType)}</td><td>${esc(m.examDate)}</td><td>${m.marksObtained} / ${m.maxMarks}</td><td><button onclick="editMarks(${i})">Edit</button></td></tr>`).join('');
+    }
+    async function loadAtt() {
+      attCache = await api('/api/teachers/attendance');
+      attBody.innerHTML = attCache.map((a, i) => `<tr><td>${esc(a.attendanceDate)}</td><td>${esc(a.rollNumber)} ${esc(a.studentName)}</td><td>${esc(a.subjectName)}</td><td>${esc(a.status)}</td><td><button onclick="toggleAtt(${i})">Toggle</button></td></tr>`).join('');
+    }
+    addMarksBtn.addEventListener('click', async () => {
+      try {
+        await api('/api/teachers/marks', { method: 'POST', body: JSON.stringify({
+          studentId: +mStudent.value, subjectId: +mSubject.value, marksObtained: parseFloat(mObtained.value),
+          maxMarks: parseFloat(mMax.value), examType: mExam.value, examDate: mDate.value }) });
+        showMsg('mMsg', 'Marks saved', true); loadMarks();
+      } catch (e) { showMsg('mMsg', e.message, false); }
+    });
+    async function editMarks(i) {
+      const m = marksCache[i];
+      const val = prompt('New marks obtained (max ' + m.maxMarks + ')', m.marksObtained);
+      if (val === null) return;
+      try {
+        await api('/api/teachers/marks/' + m.id, { method: 'PUT', body: JSON.stringify({
+          studentId: m.studentId, subjectId: m.subjectId, marksObtained: parseFloat(val),
+          maxMarks: m.maxMarks, examType: m.examType, examDate: m.examDate }) });
+        showMsg('mMsg', 'Marks updated', true); loadMarks();
+      } catch (e) { showMsg('mMsg', e.message, false); }
+    }
+    addAttBtn.addEventListener('click', async () => {
+      try {
+        await api('/api/teachers/attendance', { method: 'POST', body: JSON.stringify({
+          studentId: +aStudent.value, subjectId: +aSubject.value, attendanceDate: aDate.value, status: aStatus.value }) });
+        showMsg('aMsg', 'Attendance saved', true); loadAtt();
+      } catch (e) { showMsg('aMsg', e.message, false); }
+    });
+    async function toggleAtt(i) {
+      const a = attCache[i];
+      try {
+        await api('/api/teachers/attendance/' + a.id, { method: 'PUT', body: JSON.stringify({
+          studentId: a.studentId, subjectId: a.subjectId, attendanceDate: a.attendanceDate,
+          status: a.status === 'PRESENT' ? 'ABSENT' : 'PRESENT' }) });
+        showMsg('aMsg', 'Attendance updated', true); loadAtt();
+      } catch (e) { showMsg('aMsg', e.message, false); }
+    }
+    loadBasics().then(() => { loadMarks(); loadAtt(); }).catch(e => alert(e.message));
+  </script>
+</body>
+</html>

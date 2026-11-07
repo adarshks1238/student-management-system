@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header><h1>Student Dashboard</h1><button class="secondary" onclick="logout()">Logout</button></header>
+  <main>
+    <div class="card"><h2>My Profile</h2><div id="profile">Loading...</div></div>
+    <div class="card">
+      <h2>My Marks</h2>
+      <div class="stats" id="markStats"></div>
+      <table><thead><tr><th>Subject</th><th>Code</th><th>Exam</th><th>Date</th><th>Obtained</th><th>Max</th></tr></thead>
+        <tbody id="marksBody"></tbody></table>
+    </div>
+    <div class="card">
+      <h2>My Attendance</h2>
+      <div class="stats" id="attStats"></div>
+      <table><thead><tr><th>Date</th><th>Subject</th><th>Status</th></tr></thead>
+        <tbody id="attBody"></tbody></table>
+    </div>
+    <div class="card">
+      <h2>Academic Report</h2>
+      <button id="pdfBtn">Download PDF Report</button>
+      <div id="msg" class="msg"></div>
+    </div>
+  </main>
+  <script src="/js/app.js"></script>
+  <script>
+    requireRole('ROLE_STUDENT');
+    const stat = (l, v) => `<div class="stat">${l}<b>${esc(v)}</b></div>`;
+    async function load() {
+      try {
+        const p = await api('/api/students/profile');
+        profile.innerHTML = `<b>${esc(p.studentName)}</b> | Roll: ${esc(p.rollNumber)} | ${esc(p.department)} | Semester ${esc(p.semester)} | ${esc(p.email)}`;
+        const m = await api('/api/students/my-marks');
+        markStats.innerHTML = stat('Total', m.totalMarksObtained + ' / ' + m.totalMaxMarks) + stat('Percentage', m.percentage + ' %');
+        marksBody.innerHTML = m.subjectWiseMarks.map(r => `<tr><td>${esc(r.subjectName)}</td><td>${esc(r.subjectCode)}</td><td>${esc(r.examType)}</td><td>${esc(r.examDate)}</td><td>${r.marksObtained}</td><td>${r.maxMarks}</td></tr>`).join('') || '<tr><td colspan="6">No marks yet</td></tr>';
+        const a = await api('/api/students/my-attendance');
+        attStats.innerHTML = stat('Attendance', a.attendancePercentage + ' %') + stat('Present', a.presentCount) + stat('Absent', a.absentCount);
+        attBody.innerHTML = a.records.map(r => `<tr><td>${esc(r.attendanceDate)}</td><td>${esc(r.subjectName)}</td><td>${esc(r.status)}</td></tr>`).join('') || '<tr><td colspan="3">No attendance yet</td></tr>';
+      } catch (e) { showMsg('msg', e.message, false); }
+    }
+    pdfBtn.addEventListener('click', async () => {
+      try {
+        const res = await api('/api/reports/my-report');
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url; link.download = 'academic-report.pdf'; link.click();
+        URL.revokeObjectURL(url);
+        showMsg('msg', 'Report downloaded', true);
+      } catch (e) { showMsg('msg', e.message, false); }
+    });
+    load();
+  </script>
+</body>
+</html>

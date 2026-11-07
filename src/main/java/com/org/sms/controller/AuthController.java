@@ -1,14 +1,15 @@
-package com.adarsh.sms.controller;
+package com.org.sms.controller;
 
-import com.adarsh.sms.dto.LoginRequest;
-import com.adarsh.sms.dto.LoginResponse;
-import com.adarsh.sms.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.org.sms.dto.LoginRequest;
+import com.org.sms.dto.LoginResponse;
+import com.org.sms.service.AuthService;
 
 @RestController
 @RequestMapping("/api/auth")

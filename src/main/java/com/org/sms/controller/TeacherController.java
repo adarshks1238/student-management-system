@@ -1,11 +1,5 @@
-package com.adarsh.sms.controller;
+package com.org.sms.controller;
 
-import com.adarsh.sms.dto.CreateStudentRequest;
-import com.adarsh.sms.dto.StudentDTO;
-import com.adarsh.sms.dto.SubjectDTO;
-import com.adarsh.sms.dto.TeacherDTO;
-import com.adarsh.sms.dto.UpdateStudentRequest;
-import com.adarsh.sms.service.TeacherService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -18,6 +12,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.org.sms.dto.CreateStudentRequest;
+import com.org.sms.dto.StudentDTO;
+import com.org.sms.dto.SubjectDTO;
+import com.org.sms.dto.TeacherDTO;
+import com.org.sms.dto.UpdateStudentRequest;
+import com.org.sms.service.TeacherService;
 
 @RestController
 @RequestMapping("/api/teachers")

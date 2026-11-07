@@ -1,8 +1,9 @@
-package com.adarsh.sms.repository;
+package com.org.sms.repository;
 
-import com.adarsh.sms.entity.TeacherAssignment;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.org.sms.entity.TeacherAssignment;
 
 public interface TeacherAssignmentRepository extends JpaRepository<TeacherAssignment, Long> {
 

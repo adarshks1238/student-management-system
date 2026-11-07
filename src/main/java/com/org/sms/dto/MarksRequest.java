@@ -1,4 +1,4 @@
-package com.adarsh.sms.dto;
+package com.org.sms.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

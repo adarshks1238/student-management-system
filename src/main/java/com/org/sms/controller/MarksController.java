@@ -1,8 +1,5 @@
-package com.adarsh.sms.controller;
+package com.org.sms.controller;
 
-import com.adarsh.sms.dto.MarksRequest;
-import com.adarsh.sms.dto.MarksResponse;
-import com.adarsh.sms.service.MarksService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -16,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.org.sms.dto.MarksRequest;
+import com.org.sms.dto.MarksResponse;
+import com.org.sms.service.MarksService;
 
 @RestController
 @RequestMapping("/api/teachers/marks")

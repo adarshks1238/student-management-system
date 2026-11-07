@@ -1,13 +1,14 @@
-package com.adarsh.sms.service;
+package com.org.sms.service;
 
-import com.adarsh.sms.dto.LoginRequest;
-import com.adarsh.sms.dto.LoginResponse;
-import com.adarsh.sms.security.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.org.sms.dto.LoginRequest;
+import com.org.sms.dto.LoginResponse;
+import com.org.sms.security.JwtService;
 
 @Service
 public class AuthService {

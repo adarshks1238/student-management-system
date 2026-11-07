@@ -1,4 +1,4 @@
-package com.adarsh.sms.exception;
+package com.org.sms.exception;
 
 import java.time.LocalDateTime;
 import java.util.Map;

@@ -1,8 +1,9 @@
-package com.adarsh.sms.repository;
+package com.org.sms.repository;
 
-import com.adarsh.sms.entity.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.org.sms.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);

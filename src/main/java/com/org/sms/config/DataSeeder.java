@@ -1,21 +1,5 @@
-package com.adarsh.sms.config;
+package com.org.sms.config;
 
-import com.adarsh.sms.entity.Attendance;
-import com.adarsh.sms.entity.AttendanceStatus;
-import com.adarsh.sms.entity.Marks;
-import com.adarsh.sms.entity.Role;
-import com.adarsh.sms.entity.Student;
-import com.adarsh.sms.entity.Subject;
-import com.adarsh.sms.entity.Teacher;
-import com.adarsh.sms.entity.TeacherAssignment;
-import com.adarsh.sms.entity.User;
-import com.adarsh.sms.repository.AttendanceRepository;
-import com.adarsh.sms.repository.MarksRepository;
-import com.adarsh.sms.repository.StudentRepository;
-import com.adarsh.sms.repository.SubjectRepository;
-import com.adarsh.sms.repository.TeacherAssignmentRepository;
-import com.adarsh.sms.repository.TeacherRepository;
-import com.adarsh.sms.repository.UserRepository;
 import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +8,23 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.org.sms.entity.Attendance;
+import com.org.sms.entity.AttendanceStatus;
+import com.org.sms.entity.Marks;
+import com.org.sms.entity.Role;
+import com.org.sms.entity.Student;
+import com.org.sms.entity.Subject;
+import com.org.sms.entity.Teacher;
+import com.org.sms.entity.TeacherAssignment;
+import com.org.sms.entity.User;
+import com.org.sms.repository.AttendanceRepository;
+import com.org.sms.repository.MarksRepository;
+import com.org.sms.repository.StudentRepository;
+import com.org.sms.repository.SubjectRepository;
+import com.org.sms.repository.TeacherAssignmentRepository;
+import com.org.sms.repository.TeacherRepository;
+import com.org.sms.repository.UserRepository;
 
 /**
  * Inserts demo data on first start so the app is usable immediately.

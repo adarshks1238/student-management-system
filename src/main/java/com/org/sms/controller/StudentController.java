@@ -1,15 +1,16 @@
-package com.adarsh.sms.controller;
+package com.org.sms.controller;
 
-import com.adarsh.sms.dto.AttendanceSummaryResponse;
-import com.adarsh.sms.dto.MarksSummaryResponse;
-import com.adarsh.sms.dto.StudentDTO;
-import com.adarsh.sms.service.AttendanceService;
-import com.adarsh.sms.service.MarksService;
-import com.adarsh.sms.service.StudentService;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.org.sms.dto.AttendanceSummaryResponse;
+import com.org.sms.dto.MarksSummaryResponse;
+import com.org.sms.dto.StudentDTO;
+import com.org.sms.service.AttendanceService;
+import com.org.sms.service.MarksService;
+import com.org.sms.service.StudentService;
 
 /** Every endpoint resolves the student from the JWT principal, so a student can never request someone else's data. */
 @RestController

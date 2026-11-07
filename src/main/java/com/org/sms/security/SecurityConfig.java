@@ -1,4 +1,4 @@
-package com.adarsh.sms.security;
+package com.org.sms.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

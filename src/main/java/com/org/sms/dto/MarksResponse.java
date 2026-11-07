@@ -1,4 +1,4 @@
-package com.adarsh.sms.dto;
+package com.org.sms.dto;
 
 import java.time.LocalDate;
 

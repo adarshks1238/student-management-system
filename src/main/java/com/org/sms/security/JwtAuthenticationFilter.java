@@ -1,4 +1,4 @@
-package com.adarsh.sms.security;
+package com.org.sms.security;
 
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;

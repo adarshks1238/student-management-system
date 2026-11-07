@@ -1,6 +1,5 @@
-package com.adarsh.sms.controller;
+package com.org.sms.controller;
 
-import com.adarsh.sms.service.ReportService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.org.sms.service.ReportService;
 
 @RestController
 @RequestMapping("/api/reports")

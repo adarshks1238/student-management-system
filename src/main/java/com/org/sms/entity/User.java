@@ -1,4 +1,4 @@
-package com.adarsh.sms.entity;
+package com.org.sms.entity;
 
 import jakarta.persistence.*;
 

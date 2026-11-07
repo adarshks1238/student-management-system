@@ -1,11 +1,12 @@
-package com.adarsh.sms.service;
+package com.org.sms.service;
 
-import com.adarsh.sms.dto.StudentDTO;
-import com.adarsh.sms.entity.Student;
-import com.adarsh.sms.exception.ResourceNotFoundException;
-import com.adarsh.sms.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.org.sms.dto.StudentDTO;
+import com.org.sms.entity.Student;
+import com.org.sms.exception.ResourceNotFoundException;
+import com.org.sms.repository.StudentRepository;
 
 @Service
 public class StudentService {

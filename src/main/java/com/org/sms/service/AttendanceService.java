@@ -1,21 +1,22 @@
-package com.adarsh.sms.service;
+package com.org.sms.service;
 
-import com.adarsh.sms.dto.AttendanceRequest;
-import com.adarsh.sms.dto.AttendanceResponse;
-import com.adarsh.sms.dto.AttendanceSummaryResponse;
-import com.adarsh.sms.entity.Attendance;
-import com.adarsh.sms.entity.AttendanceStatus;
-import com.adarsh.sms.entity.Student;
-import com.adarsh.sms.entity.Subject;
-import com.adarsh.sms.entity.Teacher;
-import com.adarsh.sms.exception.BadRequestException;
-import com.adarsh.sms.exception.ResourceNotFoundException;
-import com.adarsh.sms.repository.AttendanceRepository;
-import com.adarsh.sms.repository.StudentRepository;
-import com.adarsh.sms.repository.SubjectRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.org.sms.dto.AttendanceRequest;
+import com.org.sms.dto.AttendanceResponse;
+import com.org.sms.dto.AttendanceSummaryResponse;
+import com.org.sms.entity.Attendance;
+import com.org.sms.entity.AttendanceStatus;
+import com.org.sms.entity.Student;
+import com.org.sms.entity.Subject;
+import com.org.sms.entity.Teacher;
+import com.org.sms.exception.BadRequestException;
+import com.org.sms.exception.ResourceNotFoundException;
+import com.org.sms.repository.AttendanceRepository;
+import com.org.sms.repository.StudentRepository;
+import com.org.sms.repository.SubjectRepository;
 
 @Service
 public class AttendanceService {

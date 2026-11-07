@@ -1,11 +1,12 @@
-package com.adarsh.sms.security;
+package com.org.sms.security;
 
-import com.adarsh.sms.entity.User;
-import com.adarsh.sms.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import com.org.sms.entity.User;
+import com.org.sms.repository.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

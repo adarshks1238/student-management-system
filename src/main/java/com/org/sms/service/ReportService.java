@@ -1,9 +1,5 @@
-package com.adarsh.sms.service;
+package com.org.sms.service;
 
-import com.adarsh.sms.dto.AttendanceSummaryResponse;
-import com.adarsh.sms.dto.MarksResponse;
-import com.adarsh.sms.dto.MarksSummaryResponse;
-import com.adarsh.sms.entity.Student;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
@@ -14,6 +10,11 @@ import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+import com.org.sms.dto.AttendanceSummaryResponse;
+import com.org.sms.dto.MarksResponse;
+import com.org.sms.dto.MarksSummaryResponse;
+import com.org.sms.entity.Student;
+
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;

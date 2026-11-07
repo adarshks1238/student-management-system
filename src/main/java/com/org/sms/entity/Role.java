@@ -1,4 +1,4 @@
-package com.adarsh.sms.entity;
+package com.org.sms.entity;
 
 public enum Role {
     ROLE_ADMIN,

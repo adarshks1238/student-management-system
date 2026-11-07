@@ -1,8 +1,9 @@
-package com.adarsh.sms.dto;
+package com.org.sms.dto;
 
-import com.adarsh.sms.entity.AttendanceStatus;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
+
+import com.org.sms.entity.AttendanceStatus;
 
 public record AttendanceRequest(
         @NotNull(message = "studentId is required") Long studentId,

@@ -1,4 +1,4 @@
-package com.adarsh.sms.exception;
+package com.org.sms.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

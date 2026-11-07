@@ -1,15 +1,5 @@
-package com.adarsh.sms.controller;
+package com.org.sms.controller;
 
-import com.adarsh.sms.dto.AdminStatsResponse;
-import com.adarsh.sms.dto.AssignmentRequest;
-import com.adarsh.sms.dto.AssignmentResponse;
-import com.adarsh.sms.dto.CreateTeacherRequest;
-import com.adarsh.sms.dto.StudentAdminDTO;
-import com.adarsh.sms.dto.SubjectDTO;
-import com.adarsh.sms.dto.SubjectRequest;
-import com.adarsh.sms.dto.TeacherAdminDTO;
-import com.adarsh.sms.dto.UpdateTeacherRequest;
-import com.adarsh.sms.service.AdminService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -23,6 +13,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.org.sms.dto.AdminStatsResponse;
+import com.org.sms.dto.AssignmentRequest;
+import com.org.sms.dto.AssignmentResponse;
+import com.org.sms.dto.CreateTeacherRequest;
+import com.org.sms.dto.StudentAdminDTO;
+import com.org.sms.dto.SubjectDTO;
+import com.org.sms.dto.SubjectRequest;
+import com.org.sms.dto.TeacherAdminDTO;
+import com.org.sms.dto.UpdateTeacherRequest;
+import com.org.sms.service.AdminService;
 
 @RestController
 @RequestMapping("/api/admin")

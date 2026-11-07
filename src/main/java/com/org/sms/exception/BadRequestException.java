@@ -1,4 +1,4 @@
-package com.adarsh.sms.exception;
+package com.org.sms.exception;
 
 public class BadRequestException extends RuntimeException {
     public BadRequestException(String message) {

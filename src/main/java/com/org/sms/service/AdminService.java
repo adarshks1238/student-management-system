@@ -1,33 +1,34 @@
-package com.adarsh.sms.service;
+package com.org.sms.service;
 
-import com.adarsh.sms.dto.AdminStatsResponse;
-import com.adarsh.sms.dto.AssignmentRequest;
-import com.adarsh.sms.dto.AssignmentResponse;
-import com.adarsh.sms.dto.CreateTeacherRequest;
-import com.adarsh.sms.dto.StudentAdminDTO;
-import com.adarsh.sms.dto.SubjectDTO;
-import com.adarsh.sms.dto.SubjectRequest;
-import com.adarsh.sms.dto.TeacherAdminDTO;
-import com.adarsh.sms.dto.UpdateTeacherRequest;
-import com.adarsh.sms.entity.Role;
-import com.adarsh.sms.entity.Student;
-import com.adarsh.sms.entity.Subject;
-import com.adarsh.sms.entity.Teacher;
-import com.adarsh.sms.entity.TeacherAssignment;
-import com.adarsh.sms.entity.User;
-import com.adarsh.sms.exception.BadRequestException;
-import com.adarsh.sms.exception.ResourceNotFoundException;
-import com.adarsh.sms.repository.AttendanceRepository;
-import com.adarsh.sms.repository.MarksRepository;
-import com.adarsh.sms.repository.StudentRepository;
-import com.adarsh.sms.repository.SubjectRepository;
-import com.adarsh.sms.repository.TeacherAssignmentRepository;
-import com.adarsh.sms.repository.TeacherRepository;
-import com.adarsh.sms.repository.UserRepository;
 import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.org.sms.dto.AdminStatsResponse;
+import com.org.sms.dto.AssignmentRequest;
+import com.org.sms.dto.AssignmentResponse;
+import com.org.sms.dto.CreateTeacherRequest;
+import com.org.sms.dto.StudentAdminDTO;
+import com.org.sms.dto.SubjectDTO;
+import com.org.sms.dto.SubjectRequest;
+import com.org.sms.dto.TeacherAdminDTO;
+import com.org.sms.dto.UpdateTeacherRequest;
+import com.org.sms.entity.Role;
+import com.org.sms.entity.Student;
+import com.org.sms.entity.Subject;
+import com.org.sms.entity.Teacher;
+import com.org.sms.entity.TeacherAssignment;
+import com.org.sms.entity.User;
+import com.org.sms.exception.BadRequestException;
+import com.org.sms.exception.ResourceNotFoundException;
+import com.org.sms.repository.AttendanceRepository;
+import com.org.sms.repository.MarksRepository;
+import com.org.sms.repository.StudentRepository;
+import com.org.sms.repository.SubjectRepository;
+import com.org.sms.repository.TeacherAssignmentRepository;
+import com.org.sms.repository.TeacherRepository;
+import com.org.sms.repository.UserRepository;
 
 /** All admin-only management operations: teachers, students, subjects and teacher assignments. */
 @Service

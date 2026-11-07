@@ -1,21 +1,22 @@
-package com.adarsh.sms.service;
+package com.org.sms.service;
 
-import com.adarsh.sms.dto.MarksRequest;
-import com.adarsh.sms.dto.MarksResponse;
-import com.adarsh.sms.dto.MarksSummaryResponse;
-import com.adarsh.sms.entity.Marks;
-import com.adarsh.sms.entity.Student;
-import com.adarsh.sms.entity.Subject;
-import com.adarsh.sms.entity.Teacher;
-import com.adarsh.sms.exception.BadRequestException;
-import com.adarsh.sms.exception.ResourceNotFoundException;
-import com.adarsh.sms.exception.UnauthorizedAccessException;
-import com.adarsh.sms.repository.MarksRepository;
-import com.adarsh.sms.repository.StudentRepository;
-import com.adarsh.sms.repository.SubjectRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.org.sms.dto.MarksRequest;
+import com.org.sms.dto.MarksResponse;
+import com.org.sms.dto.MarksSummaryResponse;
+import com.org.sms.entity.Marks;
+import com.org.sms.entity.Student;
+import com.org.sms.entity.Subject;
+import com.org.sms.entity.Teacher;
+import com.org.sms.exception.BadRequestException;
+import com.org.sms.exception.ResourceNotFoundException;
+import com.org.sms.exception.UnauthorizedAccessException;
+import com.org.sms.repository.MarksRepository;
+import com.org.sms.repository.StudentRepository;
+import com.org.sms.repository.SubjectRepository;
 
 @Service
 public class MarksService {
